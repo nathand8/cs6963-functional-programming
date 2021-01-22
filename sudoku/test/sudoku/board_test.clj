@@ -105,3 +105,51 @@
 
     ;; The same two coords should always be in the same block
     (is (true? (isSameBlock 2 5 2 5 2 3)))))
+
+
+(deftest board-isSameCoord
+  (testing "The same coordinate should return true"
+    (is (true? (isSameCoord 1 2 1 2)))
+    (is (false? (isSameCoord 2 1 1 2)))))
+
+
+(deftest board-isAllSolved
+  (testing "Determine if every cell in the board only has one possible value"
+    (let [solved-board [[[1] [2] [3]]
+                        [[3] [1] [2]]
+                        [[2] [3] [1]]]
+          unsolved-board [[[1] [2] [3]]
+                          [[3] [1] [2 1]]
+                          [[2] [3] [1]]]]
+      (is (true? (isAllSolved solved-board)))
+      (is (false? (isAllSolved unsolved-board))))))
+
+
+(deftest board-solvedCoords
+  (testing "Should return all of the coordinates for solved cells"
+    (let [board [[[1]       [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [2]       [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+          solved-coords `([0 0] [2 1])]
+      (is (= solved-coords (solvedCoords board))))))
+
+
+(deftest board-removeFromAll
+  (testing "Should remove from the row, block, and column"
+    (let
+     [initial-board  [[[1]       [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [2]       [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+
+      expected-board [[[1]       [1 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 3 4]   [2]     [1 3 4]   [1 3 4]]
+                      [[1 3 4]   [1 3 4] [1 2 3 4] [1 2 3 4]]]
+
+      m 2
+      n 1
+      block-width 2]
+
+      (is (= expected-board (removeFromAll initial-board m n block-width))))))
