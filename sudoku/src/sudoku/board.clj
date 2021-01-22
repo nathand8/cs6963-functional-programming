@@ -33,21 +33,26 @@
 ;; Remove the value at the coordinate from the other cells on the row
 (defn removeFromRow [board, m, n]
   (let [val-to-remove (first (get (get board m) n))]
+    (mapvFilterByIndex board
+                       (fn [row-index] (= m row-index)) ;; only apply to the row where the cell is at
+                       (fn [row] (mapvFilterByIndex row
+                                                    (fn [col-index] (not= n col-index)) ;; apply to every cell in the row except cell n
+                                                    (fn [cell] (removeFromCell cell val-to-remove)))))))
 
-    ;; Loop through the rows
-    (into [] (map-indexed
-              (fn [row-index row]
-                (if (not= row-index m)
-                  row
-                ;; Loop through the columns
-                  (map-indexed
-                   (fn [cell-index cell]
-                     (if (= cell-index n)
-                       cell
-                       (removeFromCell cell val-to-remove)))
-                   row)))
-              board)))
-    )
+    ; ;; Loop through the rows
+    ; (into [] (map-indexed
+    ;           (fn [row-index row]
+    ;             (if (not= row-index m)
+    ;               row
+    ;             ;; Loop through the columns
+    ;               (map-indexed
+    ;                (fn [cell-index cell]
+    ;                  (if (= cell-index n)
+    ;                    cell
+    ;                    (removeFromCell cell val-to-remove)))
+    ;                row)))
+    ;           board)))
+    ; )
 
 
   ; (let [row (get board m)
