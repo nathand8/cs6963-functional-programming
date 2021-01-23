@@ -40,4 +40,19 @@
       block-width 3
       block-height 2]
 
-      (is (= solved-board (solveBoard unsolved-board block-width block-height))))))
+      (is (= solved-board (solveBoard unsolved-board block-width block-height)))))
+
+  (testing "Should return a partially solved board if not 'smart' enough to solve board"
+    (let
+     [unsolved-board [[[1]       [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+      partial-board  [[[1]     [2 3 4]   [2 3 4]   [2 3 4]]
+                      [[2 3 4] [2 3 4]   [1 2 3 4] [1 2 3 4]]
+                      [[2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+      block-width 2
+      block-height 2]
+
+      (is (= partial-board (solveBoard unsolved-board block-width block-height))))))

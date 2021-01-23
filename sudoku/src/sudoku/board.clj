@@ -97,12 +97,18 @@
   (removeFromBlock (removeFromCol (removeFromRow board m n) m n) m n block-width))
 
 
+;; getPossibleValueCount [board]
+;; Return the total "possible" values for a board
+(defn getPossibleValueCount [board]
+  (count (flatten board)))
+
+
 ;; isAllSolved [board]
 ;; The board is "solved" when each cell only has one possible value
 (defn isAllSolved [board]
   (let [board-size (count board)
         cell-count (* board-size board-size)]
-    (= cell-count (count (flatten board)))))
+    (= cell-count (getPossibleValueCount board))))
 
 
 ;; solvedCoords board => vector of the coords for cells with single possible values

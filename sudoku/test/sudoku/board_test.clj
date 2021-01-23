@@ -153,3 +153,13 @@
       block-width 2]
 
       (is (= expected-board (removeFromAll initial-board m n block-width))))))
+
+
+(deftest board-solvedCoords
+  (testing "Should determine how many possible values are on the board"
+    (let [board [[[1]       [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [2]       [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+        possible-value-count 58]
+      (is (= possible-value-count (getPossibleValueCount board))))))
