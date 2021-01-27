@@ -3,8 +3,8 @@
             [sudoku.core :refer :all]
             [sudoku.board :refer :all]))
 
-(deftest board-mapvFilterByIndex
-  (testing "mapvFilterByIndex should take a vector, fnFilterItem, fn. It should only apply"
+(deftest board-mapWhen
+  (testing "mapWhen should take a vector, fnFilterItem, fn. It should only apply"
     (let
      [initial-vector [10 20 30 40 50]
       index-filter (fn [i] (even? i))
@@ -12,7 +12,7 @@
       expected-vector [12 20 32 40 52]]
 
       (is (=
-           (mapvFilterByIndex initial-vector index-filter item-map)
+           (mapWhen initial-vector index-filter item-map)
            expected-vector)))))
 
 (deftest board-walkBoard

@@ -15,7 +15,7 @@
 ;; 1. Vector with items
 ;; 2. A function that signifies then to change the item (true) and when to leave it (false)
 ;; 3. A function that changes the item when it needs to be changed
-(defn mapvFilterByIndex [items fnIndexFilter fnItemApply]
+(defn mapWhen [items fnIndexFilter fnItemApply]
   (into [] (map-indexed
             (fn [item-index item]
               (if (fnIndexFilter item-index)
@@ -51,9 +51,9 @@
 ;; * It's assumed that the cell at (m, n) has at least one value in it
 (defn removeFromRow [board, m, n]
   (let [val-to-remove (first (get (get board m) n))]
-    (mapvFilterByIndex board
+    (mapWhen board
                        (fn [row-index] (= m row-index)) ;; only apply to the row where the cell is at
-                       (fn [row] (mapvFilterByIndex row
+                       (fn [row] (mapWhen row
                                                     (fn [col-index] (not= n col-index)) ;; apply to every cell in the row except cell n
                                                     (fn [cell] (removeFromCell cell val-to-remove)))))))
 
@@ -62,9 +62,9 @@
 ;; 
 (defn removeFromCol [board, m, n]
   (let [val-to-remove (first (get (get board m) n))]
-    (mapvFilterByIndex board
+    (mapWhen board
                        (fn [row-index] (not= m row-index)) ;; apply to every row except the one with the cell
-                       (fn [row] (mapvFilterByIndex row
+                       (fn [row] (mapWhen row
                                                     (fn [col-index] (= n col-index)) ;; apply only to the column with the cell in it
                                                     (fn [cell] (removeFromCell cell val-to-remove)))))))
 
@@ -112,21 +112,22 @@
 
 
 ;; solvedCoords board => vector of the coords for cells with single possible values
-;; 
 (defn solvedCoords [board]
 
-  ;; Only return the coordinates, not the count
-  (map (fn [[m n count]] [m n])
+  ;; Filter - only return the items where the count is 1
+  (remove nil?
 
-       ;; Filter - only return the items where the count is 1
-       (filter (fn [[m n count]] (= 1 count))
+          (apply concat ;; Flattens one level
 
-               (apply concat ;; Flattens one level
+                 ;; Loop through the entire board and get [m n] for each cell with only one option
+                 (for [row-index (range (count board))]
+                   (for [col-index (range (count board))]
 
-                      ;; Loop through the entire board and get [m n cell-count] for each cell
-                      (for [row-index (range (count board))]
-                        (for [col-index (range (count board))]
-                          [row-index col-index (count (get (get board row-index) col-index))]))))))
+                    ;; If there is only one option, return the coordinates
+                    ;; Otherwise, returns nil 
+                     (if (= 1 (count (get (get board row-index) col-index)))
+                       [row-index col-index]
+                       nil))))))
 
 
 
