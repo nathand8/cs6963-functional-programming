@@ -40,10 +40,13 @@
 (deftest board-removeFromCol
   (testing "The value from the coordinate should be removed from that column"
     (let
-     [initial-board [[[1 2] [2 3] [1]]
-                     [[1] [2 3] [1 2]]]
-      expected-board [[[1 2] [2 3] [1]]
-                      [[1] [2 3] [2]]]]
+     [initial-board  [[[1 2] [2 3] [1]  ]
+                      [[1]   [2 3] [1 2]]
+                      [[1]   [2 3] [1 3]]]
+
+      expected-board [[[1 2] [2 3] [1]  ]
+                      [[1]   [2 3] [2]  ]
+                      [[1]   [2 3] [3]  ]]]
       (is (=
            (removeFromCol initial-board 0 2)
            expected-board)))))
@@ -148,8 +151,7 @@
                       [[1 3 4]   [2]     [1 3 4]   [1 3 4]]
                       [[1 3 4]   [1 3 4] [1 2 3 4] [1 2 3 4]]]
 
-      m 2
-      n 1
+      m 2 n 1
       block-width 2]
 
       (is (= expected-board (removeFromAll initial-board m n block-width))))))
