@@ -118,14 +118,20 @@
 
 (deftest board-isAllSolved
   (testing "Determine if every cell in the board only has one possible value"
-    (let [solved-board [[[1] [2] [3]]
-                        [[3] [1] [2]]
-                        [[2] [3] [1]]]
+    (let [solved-board   [[[1] [2] [3]]
+                          [[3] [1] [2]]
+                          [[2] [3] [1]]]
+
           unsolved-board [[[1] [2] [3]]
                           [[3] [1] [2 1]]
-                          [[2] [3] [1]]]]
+                          [[2] [3] [1]]]
+
+          tricky-board   [[[] [2] [3]]
+                          [[3] [1] [2]]
+                          [[2] [3] [1 2]]]]
       (is (true? (isAllSolved solved-board)))
-      (is (false? (isAllSolved unsolved-board))))))
+      (is (false? (isAllSolved unsolved-board)))
+      (is (false? (isAllSolved tricky-board))))))
 
 
 (deftest board-empty-cells

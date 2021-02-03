@@ -104,19 +104,21 @@
   (count (flatten board)))
 
 
-;; isAllSolved [board]
-;; The board is "solved" when each cell only has one possible value
-(defn isAllSolved [board]
-  (let [board-size (count board)
-        cell-count (* board-size board-size)]
-    (= cell-count (getPossibleValueCount board))))
-
-
 ;; Checks if the board has any cells with no possible options
 (defn empty-cells [board]
   (if (sequential? (first board))
     (some #(empty-cells %) board)
     (= 0 (count board))))
+
+
+;; isAllSolved [board]
+;; The board is "solved" when each cell only has one possible value
+(defn isAllSolved [board]
+  (let [board-size (count board)
+        cell-count (* board-size board-size)]
+
+   (and (not (empty-cells board))
+        (= cell-count (getPossibleValueCount board))) ))
 
 
 ;; solvedCoords board => vector of the coords for cells with single possible values
