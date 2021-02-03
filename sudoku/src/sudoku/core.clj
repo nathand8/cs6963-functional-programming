@@ -20,11 +20,26 @@
   (let [block-width (getNumberInput "What block-width would you like?")
         block-height (getNumberInput "What block-height would you like?")
         use-rand-gen (getBooleanInput "Would you like to use random generation?")
+        remove-values (getNumberInput "How many values would you like to remove from the solved board?")
         board (if use-rand-gen
                 (generate block-width block-height)
-                (solveBoardGuess (blank-board block-width block-height) block-width block-height 0))]
-    (println "Here is your board:")
-    (println (boardToString board))))
+                (solveBoardGuess (blank-board block-width block-height) block-width block-height 0))
+        puzzle-board (removeRandomValues board remove-values)
+        solved-board (solveBoard puzzle-board block-width block-height)]
+
+    (println "Here is the generated, completed board:")
+    (println (boardToString board))
+    (println)
+
+    (println "Here is the puzzle board:")
+    (println (boardToString puzzle-board))
+    (println)
+    
+    (println "Here is the solved board:")
+    (println (boardToString solved-board))
+    (println)
+
+    ))
 
 
 
