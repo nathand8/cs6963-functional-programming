@@ -16,34 +16,51 @@
   (assoc-in board [m n] (vector (rand-nth (get-in board [m n])))))
 
 
-;; Pick random coordinates for the board
-(defn randCoords [board]
+(defn nextBlankCoord [board single-index starting-index]
   (let
    [board-size (count board)
-    m (rand-int board-size)
-    n (rand-int board-size)]
-    [m n]))
+    end-index (* board-size board-size)
+    m-index (quot single-index board-size)
+    n-index (mod single-index board-size)]
+    (if (< 1 (count (get-in board [m-index n-index])))
+      [m-index n-index]
+      (let [next-index (mod (inc single-index) end-index)]
+        (if (= next-index starting-index)
+          nil
+          (nextBlankCoord board next-index starting-index))))))
+
+
+;; Pick random coordinates for the board
+(defn randCoords [board]
+  (let [board-size (count board)
+        end-index (* board-size board-size)
+        rand-index (rand-int end-index)]
+    (nextBlankCoord board rand-index rand-index)))
 
 
 ;; Generate a board with block dimensions
 (defn generate [block-width block-height]
 
   (loop [board-col (vector (blank-board block-width block-height))
-         countdown 10000]
+         countdown 1000000000]
 
-    (let [board (first (take 1 board-col))
-          rand-coords (randCoords board)
-          rand-m (first rand-coords)
-          rand-n (second rand-coords)]
+    (let [board (first (take 1 board-col))]
 
+      ;; If the board is solved, stop here
       (if (or (isAllSolved board) (>= 0 countdown))
-        (doall board)
+        board
 
-        (if (empty-cells board)
-          (recur (rest board-col) countdown)
-          (recur
-           (cons (solveBoard (pickCell board rand-m rand-n) block-width block-height) board-col)
-           (dec countdown)))))))
+        ;; Pick a new random coordinate to solve
+        (let [rand-coords (randCoords board)
+              rand-m (first rand-coords)
+              rand-n (second rand-coords)]
+
+          ;; If there's empty cells (no possible values), this is a bad route to take, back out of it
+          (if (empty-cells board)
+            (recur (rest board-col) countdown)
+            (recur
+               (cons (solveBoard (pickCell board rand-m rand-n) block-width block-height) board-col)
+               (dec countdown))))))))
 
 
 ;; Blank > Solved (3, 5)
