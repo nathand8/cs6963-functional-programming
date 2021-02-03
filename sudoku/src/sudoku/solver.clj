@@ -49,13 +49,3 @@
                  (if (empty-cells board)
                    nil
                    (solveBoardGuess new-board block-width block-height (inc index)))))))))
-
-
-(remove nil? (for [cell-val [1 2 3 4 5 6]
-     :let [changed-val (* 11 cell-val)]]
-  (if (even? changed-val) changed-val nil)))
-
-(vector 10)
-
-
-(quot 12 6)
