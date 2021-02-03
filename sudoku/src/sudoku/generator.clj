@@ -41,13 +41,12 @@
 ;; Generate a board with block dimensions
 (defn generate [block-width block-height]
 
-  (loop [board-col (vector (blank-board block-width block-height))
-         countdown 1000000000]
+  (loop [board-col (vector (blank-board block-width block-height))]
 
     (let [board (first (take 1 board-col))]
 
       ;; If the board is solved, stop here
-      (if (or (isAllSolved board) (>= 0 countdown))
+      (if (isAllSolved board)
         board
 
         ;; Pick a new random coordinate to solve
@@ -57,10 +56,8 @@
 
           ;; If there's empty cells (no possible values), this is a bad route to take, back out of it
           (if (empty-cells board)
-            (recur (rest board-col) countdown)
-            (recur
-               (cons (solveBoard (pickCell board rand-m rand-n) block-width block-height) board-col)
-               (dec countdown))))))))
+            (recur (rest board-col))
+            (recur (cons (solveBoard (pickCell board rand-m rand-n) block-width block-height) board-col))))))))
 
 
 ;; Blank > Solved (3, 5)
