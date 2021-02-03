@@ -56,3 +56,30 @@
       block-height 2]
 
       (is (= partial-board (solveBoard unsolved-board block-width block-height))))))
+
+(deftest solver-solveBoardGuess
+  (testing "Should solve a board and guess when necessary 1x2 block size"
+    (let
+     [unsolved-board [[[1 2] [1 2]]
+                      [[1 2] [1 2]]]
+      expected-board [[[1] [2]]
+                      [[2] [1]]]
+      block-width 1
+      block-height 2]
+
+      (is (= expected-board (solveBoardGuess unsolved-board block-width block-height 0)))))
+
+  (testing "Should solve a board and guess when necessary 2x2 block size"
+    (let
+     [unsolved-board [[[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+      expected-board [[[1] [2] [3] [4]]
+                      [[3] [4] [1] [2]]
+                      [[2] [1] [4] [3]]
+                      [[4] [3] [2] [1]]]
+      block-width 2
+      block-height 2]
+
+      (is (= expected-board (solveBoardGuess unsolved-board block-width block-height 0))))))

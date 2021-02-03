@@ -128,6 +128,22 @@
       (is (false? (isAllSolved unsolved-board))))))
 
 
+(deftest board-empty-cells
+  (testing "Checks the board for any empty cells (no possible value here)"
+    (let
+     [full-board [[[1 2] [1 2]]
+                  [[1 2] [1]]
+                  [[1 2] [1 2]]
+                  [[1 2] [1 2]]]
+
+      empty-board [[[1 2] [1 2]]
+                   [[1 2] []]
+                   [[1 2] [1 2]]
+                   [[1 2] [1 2]]]]
+      (is (empty-cells empty-board))
+      (is (not (empty-cells full-board))))))
+
+
 (deftest board-solvedCoords
   (testing "Should return all of the coordinates for solved cells"
     (let [board [[[1]       [1 2 3 4] [1 2 3 4] [1 2 3 4]]

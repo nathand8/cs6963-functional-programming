@@ -111,6 +111,13 @@
     (= cell-count (getPossibleValueCount board))))
 
 
+;; Checks if the board has any cells with no possible options
+(defn empty-cells [board]
+  (if (sequential? (first board))
+    (some #(empty-cells %) board)
+    (= 0 (count board))))
+
+
 ;; solvedCoords board => vector of the coords for cells with single possible values
 (defn solvedCoords [board]
 

@@ -25,3 +25,37 @@
         (if (= value-count new-value-count)
           board ;; If no progress was made, stop and return the board
           (recur new-board new-value-count))))))
+
+
+(defn solveBoardGuess [board block-width block-height index]
+  (let [board-size (* block-width block-height)
+        end-index (* board-size board-size)
+        m-index (quot index board-size)
+        n-index (mod index board-size)
+        cell (get-in board [m-index n-index])]
+
+    ;; Stop after reaching the last index
+    (if (>= index end-index)
+
+      ;; Return the solved board
+      board
+
+      ;; Solve this index, then try the next index
+      (first
+       (remove nil?
+               (for [cell-val cell
+                     :let [new-board-raw (assoc-in board [m-index n-index] (vector cell-val))
+                           new-board (solveBoard new-board-raw block-width block-height)]]
+                 (if (empty-cells board)
+                   nil
+                   (solveBoardGuess new-board block-width block-height (inc index)))))))))
+
+
+(remove nil? (for [cell-val [1 2 3 4 5 6]
+     :let [changed-val (* 11 cell-val)]]
+  (if (even? changed-val) changed-val nil)))
+
+(vector 10)
+
+
+(quot 12 6)
