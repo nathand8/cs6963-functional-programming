@@ -1,4 +1,5 @@
 (ns sudoku.board)
+(use '[clojure.string :only (join)])
 
 ;; Board structure:
 ;; [
@@ -135,6 +136,29 @@
                      (if (= 1 (count (get (get board row-index) col-index)))
                        [row-index col-index]
                        nil))))))
+
+
+(defn boardToString [board]
+  (join " "
+        (flatten
+         (map ;; Map the board
+
+          ;; For each row, get the cells plus a newline
+          (fn [row]
+            (cons "\n"
+                  (map
+
+                   (fn [cell]
+                     (if (= 1 (count cell))
+                       ;; For cells with a single value, display the value
+                       (first cell)
+                       ;; For cells with more or less, display underscore
+                       "_"))
+
+                   row)))
+          board))))
+
+
 
 
 

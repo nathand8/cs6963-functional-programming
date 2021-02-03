@@ -181,3 +181,15 @@
                  [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
         possible-value-count 58]
       (is (= possible-value-count (getPossibleValueCount board))))))
+
+
+(deftest board-boardToString
+  (testing "Should turn a board into a string"
+    (let [board [[[1]       [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                 [[1 2 3 4] [2]       [1 3 4]   [1 2 3 4]]
+                 [[1 2 3 4] [1 2 3 4] [3]       []]]
+          boardString (boardToString board)
+          expectedString  "\n 1 _ _ _ \n _ _ _ _ \n _ 2 _ _ \n _ _ 3 _"]
+
+      (is (= expectedString boardString)))))
