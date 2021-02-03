@@ -16,26 +16,36 @@
   (assoc-in board [m n] (vector (rand-nth (get-in board [m n])))))
 
 
-(defn nextBlankCoord [board single-index starting-index]
+(defn nextQualifyingCoord [board single-index starting-index fnQualify]
   (let
    [board-size (count board)
     end-index (* board-size board-size)
     m-index (quot single-index board-size)
     n-index (mod single-index board-size)]
-    (if (< 1 (count (get-in board [m-index n-index])))
+    (if (fnQualify (get-in board [m-index n-index]))
       [m-index n-index]
       (let [next-index (mod (inc single-index) end-index)]
         (if (= next-index starting-index)
           nil
-          (nextBlankCoord board next-index starting-index))))))
+          (nextQualifyingCoord board next-index starting-index fnQualify))))))
 
 
 ;; Pick random coordinates for the board
-(defn randCoords [board]
+(defn randBlankCoords [board]
   (let [board-size (count board)
         end-index (* board-size board-size)
-        rand-index (rand-int end-index)]
-    (nextBlankCoord board rand-index rand-index)))
+        rand-index (rand-int end-index)
+        qualify-fn (fn [cell] (< 1 (count cell)))]
+    (nextQualifyingCoord board rand-index rand-index qualify-fn)))
+
+
+;; Pick random coordinates for the board
+(defn randSolvedCoords [board]
+  (let [board-size (count board)
+        end-index (* board-size board-size)
+        rand-index (rand-int end-index)
+        qualify-fn (fn [cell] (= 1 (count cell)))]
+    (nextQualifyingCoord board rand-index rand-index qualify-fn)))
 
 
 ;; Generate a board with block dimensions
@@ -50,7 +60,7 @@
         board
 
         ;; Pick a new random coordinate to solve
-        (let [rand-coords (randCoords board)
+        (let [rand-coords (randBlankCoords board)
               rand-m (first rand-coords)
               rand-n (second rand-coords)]
 
@@ -58,6 +68,56 @@
           (if (empty-cells board)
             (recur (rest board-col))
             (recur (cons (solveBoard (pickCell board rand-m rand-n) block-width block-height) board-col))))))))
+
+
+;; Generate an "unsolved" cell for the board
+(defn unsolvedCell [board]
+  (vec (range 1 (+ 1 (count board)))))
+
+
+;; ;; Remove n random coords from board
+;; (defn removeRandomValues [board n]
+
+;;   (println)
+;;   (println "Step")
+;;   (println n)
+;;   (println (boardToString board))
+
+;;   ;; Recursion: base case, when n = 0, don't remove any!
+;;   (if (= n 0)
+;;     board
+
+;;     (let [coords (randSolvedCoords board)
+;;           m (first coords)
+;;           n (second coords)]
+;;       (removeRandomValues (assoc-in board [m n] (unsolvedCell board)) (- n 1)))))
+
+
+;; Remove n random coords from board
+;; (defn removeRandomValues [initial-board initial-n]
+
+;;   (loop [board initial-board
+;;          n initial-n]
+
+;;     ;; Recursion: base case, when n = 0, don't remove any!
+;;     (if (= n 0)
+;;       board
+
+;;       (let [coords (randSolvedCoords board)
+;;             m (first coords)
+;;             n (second coords)]
+;;         (recur (doall (assoc-in board [m n] (unsolvedCell board))) (dec n))))))
+
+
+;; Remove n random coords from board
+(defn removeRandomValues [board n]
+  (let [rand-coords (repeatedly n #(randSolvedCoords board))]
+    (reduce #(assoc-in %1 [(first %2) (second %2)] (unsolvedCell %1)) board rand-coords)))
+
+
+
+
+(- 10 1)
 
 
 ;; Blank > Solved (3, 5)
@@ -70,9 +130,9 @@
 ;; reshape (see link)
 ;; 
 
-(get-in [ [[1 1] [2 2]]  [[3 3] [4 4]] ] [1 1])
+(get-in [[[1 1] [2 2]]  [[3 3] [4 4]]] [1 1])
 
-(assoc-in [ [[1 1] [2 2]]  [[3 3] [4 4]] ] [1 1] [5 5])
+(assoc-in [[[1 1] [2 2]]  [[3 3] [4 4]]] [1 1] [5 5])
 
 
 (defn reshape [m & shape]

@@ -56,20 +56,73 @@
       (is (= initial-board unpicked-board)))))
 
 
-(deftest generator-randCoords
-  (testing "Should generate random coordinates within board")
+(deftest generator-randBlankCoords
+  (testing "Should generate random coordinates within board"
     (let
      [board [[[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
              [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
              [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
              [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
-      coords (randCoords board)]
+      coords (randBlankCoords board)]
 
-             (is (<= 0 (first coords)))
-             (is (>= 3 (first coords)))
-             (is (<= 0 (second coords)))
-             (is (>= 3 (second coords)))))
+      (is (<= 0 (first coords)))
+      (is (>= 3 (first coords)))
+      (is (<= 0 (second coords)))
+      (is (>= 3 (second coords)))))
 
+  (testing "Should only get unsolved coords"
+    (let
+     [board [[[1] [2] [3] [4]]
+             [[1] [2] [3] [4 5]]
+             [[1] [2] [3] [4]]
+             [[1] [2] [3] [4]]]
+
+      coords (randBlankCoords board)]
+
+      (is (= coords [1 3])))))
+
+
+(deftest generator-randSolvedCoords
+  (testing "Should generate random coordinates within board"
+    (let
+     [board [[[1] [2] [3] [4]]
+             [[1] [2] [3] [4]]
+             [[1] [2] [3] [4]]
+             [[1] [2] [3] [4]]]
+      coords (randSolvedCoords board)]
+
+      (is (<= 0 (first coords)))
+      (is (>= 3 (first coords)))
+      (is (<= 0 (second coords)))
+      (is (>= 3 (second coords)))))
+
+  (testing "Should only get solved coords"
+    (let
+     [board [[[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+             [[1 2 3 4] [1 2 3 4] [1]       [1 2 3 4]]
+             [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+             [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+
+      coords (randSolvedCoords board)]
+
+      (is (= coords [1 2])))))
+
+(deftest generator-removeRandomValues
+  (testing "Should remove a value from the board"
+    (let
+     [initial-board [[[1] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                     [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                     [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                     [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+
+      unsolved-board [[[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]
+                      [[1 2 3 4] [1 2 3 4] [1 2 3 4] [1 2 3 4]]]
+
+      removed-board (removeRandomValues initial-board 1)]
+      
+      (is (= unsolved-board removed-board)))))
 
 
 
