@@ -10,10 +10,10 @@
 ;;   :turn 18
 ;; }
 
-(defn gameFromJSON [json-game-str]
+(defn fromJSON [json-game-str]
   (json/read-str json-game-str :key-fn #(keyword %)))
 
-(defn gameToJSON [g]
+(defn toJSON [g]
   (json/write-str g))
 
 (defn players [g]
@@ -22,17 +22,17 @@
 (defn spaces [g]
   (get g :spaces))
 
-(defn getAllPiecesCoords [g]
+(defn allPiecesCoords [g]
   (apply concat (players g)))
 
-(defn getOwnPiecesCoords [g]
+(defn ownPiecesCoords [g]
   (first (players g)))
 
-(defn getOtherPiecesCoords [g]
+(defn otherPiecesCoords [g]
   (second (players g)))
 
 (defn pieceAtCoord? [g c]
-  (in? (getAllPiecesCoords g) c))
+  (in? (allPiecesCoords g) c))
 
 (defn buildOn? [g c]
   (board/buildOn? (spaces g) c))
