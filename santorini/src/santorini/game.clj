@@ -35,8 +35,10 @@
   (in? (allPiecesCoords g) c))
 
 (defn buildOn? [g c]
-  (board/buildOn? (spaces g) c))
+  (and (board/buildOn? (spaces g) c)
+       (not (pieceAtCoord? g c))))
 
 (defn moveTo? [g cf ct]
-  (board/moveTo? (spaces g) cf ct))
+  (and (board/moveTo? (spaces g) cf ct)
+       (not (pieceAtCoord? g ct))))
 

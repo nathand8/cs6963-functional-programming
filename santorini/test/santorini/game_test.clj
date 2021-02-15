@@ -57,3 +57,26 @@
 
       (is (true? (game/pieceAtCoord? g [2, 3])))
       (is (nil? (game/pieceAtCoord? g [1, 1]))))))
+
+
+(deftest build-on?-test
+  (testing "Pieces can't build on other pieces"
+    (let [g {:players [[[3,3],[4,4]],[[2,5],[3,5]]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
+             :turn 18}]
+
+      (is (true? (game/buildOn? g [4, 3])))
+      (is (false? (game/buildOn? g [4, 4])))
+      (is (false? (game/buildOn? g [5, 5])))
+      )))
+
+
+(deftest move-to?-test
+  (testing "Pieces can't move to the same spot as another piece"
+    (let [g {:players [[[1,1],[1,2]],[[2,5],[3,5]]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
+             :turn 18}]
+
+      (is (true? (game/moveTo? g [1, 1] [2, 2])))
+      (is (false? (game/moveTo? g [1, 1] [1, 2])))
+      )))
