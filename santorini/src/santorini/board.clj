@@ -31,3 +31,13 @@
   "True if the coordinate can be built on, False if not"
   [b c]
   (> 4 (get-in b (cToI c))))
+
+
+(defn moveTo?
+  "True if piece can move from cf to ct, False otherwise. ASSUMING THE COORDINATES ARE NEIGHBORS"
+  [b cf ct]
+  (let [lf (get-in b (cToI cf))
+        lt (get-in b (cToI ct))]
+        (and (not= 4 lt)
+             (<= lt (+ 1 lf)))
+    ))

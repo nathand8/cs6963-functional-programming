@@ -37,3 +37,6 @@
 (defn buildOn? [g c]
   (board/buildOn? (spaces g) c))
 
+(defn moveTo? [g cf ct]
+  (board/moveTo? (spaces g) cf ct))
+

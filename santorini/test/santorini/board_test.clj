@@ -29,3 +29,17 @@
       (is (true? (board/buildOn? b [3, 4])))
       (is (false? (board/buildOn? b [5, 5])))
       )))
+
+
+(deftest move-to?-test
+  (testing "Check if a piece can move from one coordinate to another"
+    (let [b [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,1,2,3,4]]]
+
+      (is (true? (board/moveTo? b [1, 1] [1, 2]))) ;; Same height - ground level
+      (is (true? (board/moveTo? b [2, 2] [2, 3]))) ;; Up one level
+      (is (true? (board/moveTo? b [5, 4] [4, 5]))) ;; Down multiple levels
+      (is (false? (board/moveTo? b [2, 4] [2, 3]))) ;; Up 2 levels
+      (is (false? (board/moveTo? b [4, 2] [4, 3]))) ;; Up 3 levels
+      (is (false? (board/moveTo? b [5, 4] [5, 5]))) ;; Up to level 4
+      )))
+
