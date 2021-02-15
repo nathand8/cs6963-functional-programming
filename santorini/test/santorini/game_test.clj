@@ -74,9 +74,10 @@
 (deftest move-to?-test
   (testing "Pieces can't move to the same spot as another piece"
     (let [g {:players [[[1,1],[1,2]],[[2,5],[3,5]]]
-             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,3,4]]
              :turn 18}]
 
       (is (true? (game/moveTo? g [1, 1] [2, 2])))
       (is (false? (game/moveTo? g [1, 1] [1, 2])))
+      (is (false? (game/moveTo? g [5, 4] [5, 5])))
       )))
