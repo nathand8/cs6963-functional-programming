@@ -1,5 +1,6 @@
 (ns santorini.game
   (:require [clojure.data.json :as json]
+            [santorini.board :as board ]
             [santorini.util :refer [in?]]))
 
 ;; Game Format:
@@ -18,6 +19,9 @@
 (defn players [g]
   (get g :players))
 
+(defn spaces [g]
+  (get g :spaces))
+
 (defn getAllPiecesCoords [g]
   (apply concat (players g)))
 
@@ -29,4 +33,7 @@
 
 (defn pieceAtCoord? [g c]
   (in? (getAllPiecesCoords g) c))
+
+(defn buildOn? [g c]
+  (board/buildOn? (spaces g) c))
 
