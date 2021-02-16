@@ -42,3 +42,11 @@
   (and (board/moveTo? (spaces g) cf ct)
        (not (pieceAtCoord? g ct))))
 
+(defn movePiece-players
+  "Create copy of :players, move cf to ct"
+  [g cf ct]
+  [(replace {cf ct} (ownPiecesCoords g)) (otherPiecesCoords g)])
+
+(defn moveTo [g cf ct]
+  (assoc g :players (movePiece-players g cf ct)))
+

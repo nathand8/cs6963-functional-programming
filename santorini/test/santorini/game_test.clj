@@ -81,3 +81,16 @@
       (is (false? (game/moveTo? g [1, 1] [1, 2])))
       (is (false? (game/moveTo? g [5, 4] [5, 5])))
       )))
+  
+
+(deftest move-to-test
+  (testing "Move a piece to a new spot"
+    (let [g-init {:players [[[1,1],[1,2]],[[2,5],[3,5]]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,3,4]]
+             :turn 18}
+          g-out {:players [[[1,1],[1,3]],[[2,5],[3,5]]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,3,4]]
+             :turn 18}]
+
+      (is (= g-out (game/moveTo g-init [1, 2] [1, 3])))
+      )))
