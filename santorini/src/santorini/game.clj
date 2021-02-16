@@ -28,6 +28,16 @@
 (defn ownPiecesCoords [g]
   (first (players g)))
 
+(defn ownPieceIndexes
+  "Get the indexes into own pieces array"
+  []
+  (range 2))
+
+(defn piToC 
+  "'PieceIndexToCoord' - Given a piece index pi {0, 1} - return own piece coordinates"
+  [g pi]
+  (get (ownPiecesCoords g) pi))
+
 (defn otherPiecesCoords [g]
   (second (players g)))
 

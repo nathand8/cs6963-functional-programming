@@ -45,8 +45,8 @@
                      :turn 18}
           move-outcomes [g-left, g-right]]
 
-      (is (= 2 (count (turn/pieceMoveOutcomes init-game [1, 2]))))
-      (is (= move-outcomes (turn/pieceMoveOutcomes init-game [1, 2]))))))
+      (is (= 2 (count (turn/pieceMoveOutcomes init-game 0))))
+      (is (= move-outcomes (turn/pieceMoveOutcomes init-game 0))))))
 
 
 (deftest move-outcomes-test
@@ -106,8 +106,8 @@
                      :turn 18}
           build-outcomes [g-left, g-right]]
       
-      (is (= 2 (count (turn/pieceBuildOutcomes init-game [1, 2]))))
-      (is (= build-outcomes (turn/pieceBuildOutcomes init-game [1, 2]))))))
+      (is (= 2 (count (turn/pieceBuildOutcomes init-game 0))))
+      (is (= build-outcomes (turn/pieceBuildOutcomes init-game 0))))))
 
 
 (deftest build-outcomes-test
@@ -127,3 +127,22 @@
       ;; From (4, 4) there are 6 possible places to build
       ;; Total: 11
       (is (= 11 (count (turn/buildOutcomes g)))))))
+
+
+(deftest turn-outcomes-test
+  (testing "Returns all possible outcomes after either piece builds"
+    (let [g {:players [[[1,2],[4,4]]
+                       [[2,5],[3,5]]]
+
+             :spaces [[0,0,0,0,2]
+                      [4,4,4,4,0]
+                      [1,4,3,4,0]
+                      [0,4,3,0,0]
+                      [0,4,0,1,4]]
+
+             :turn 18}]
+      
+      ;; From (1, 2) there are 2 move spots -> 1 + 2 = 3 permutations
+      ;; From (4, 4) there are 3 move spots -> 3 + 4 + 2 = 9 permutations
+      ;; Total: 12
+      (is (= 12 (count (turn/turnOutcomes g)))))))

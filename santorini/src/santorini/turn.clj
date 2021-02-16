@@ -5,25 +5,38 @@
 
 
 (defn pieceMoveOutcomes
-  "Get all the move outcomes for a single piece (starting at cp)"
-  [g cp]
-  (mapv #(game/moveTo g cp %)
-        (filterv #(game/moveTo? g cp %)
-                 (board/nborCoords cp))))
+  "Get all move outcomes for a single piece, pi = piece index {0, 1}"
+  [g pi]
+  (let [cf (game/piToC g pi)]
+    (mapv #(game/moveTo g cf %)
+          (filterv #(game/moveTo? g cf %)
+                   (board/nborCoords cf)))))
 
 (defn moveOutcomes
-  "Get all the move outcomes for either piece"
+  "Get all move outcomes for either piece"
   [g]
-  (apply concat (map #(pieceMoveOutcomes g %) (game/ownPiecesCoords g))))
+  (apply concat (map #(pieceMoveOutcomes g %) (game/ownPieceIndexes))))
 
 (defn pieceBuildOutcomes
-  "Get all the build outcomes for a single piece at cp"
-  [g cp]
-  (mapv #(game/buildOn g %)
-        (filterv #(game/buildOn? g %)
-                 (board/nborCoords cp))))
+  "Get all build outcomes for a single piece, pi = piece index {0, 1}"
+  [g pi]
+  (let [cf (game/piToC g pi)]
+    (mapv #(game/buildOn g %)
+          (filterv #(game/buildOn? g %)
+                   (board/nborCoords cf)))))
 
 (defn buildOutcomes
-  "Get all the move outcomes for either piece"
+  "Get all move outcomes for either piece"
   [g]
-  (apply concat (map #(pieceBuildOutcomes g %) (game/ownPiecesCoords g))))
+  (apply concat (map #(pieceBuildOutcomes g %) (game/ownPieceIndexes))))
+
+(defn pieceTurnOutcomes
+  "Get all outcomes for a single piece, pi = piece index {0, 1}"
+  [g pi]
+  (apply concat (map #(pieceBuildOutcomes % pi) 
+       (pieceMoveOutcomes g pi))))
+
+(defn turnOutcomes
+  "Get all possible outcomes from a given turn"
+  [g]
+  (apply concat (map #(pieceTurnOutcomes g %) (game/ownPieceIndexes))))
