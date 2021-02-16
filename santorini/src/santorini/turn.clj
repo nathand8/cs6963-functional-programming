@@ -15,3 +15,15 @@
   "Get all the move outcomes for either piece"
   [g]
   (apply concat (map #(pieceMoveOutcomes g %) (game/ownPiecesCoords g))))
+
+(defn pieceBuildOutcomes
+  "Get all the build outcomes for a single piece at cp"
+  [g cp]
+  (mapv #(game/buildOn g %)
+        (filterv #(game/buildOn? g %)
+                 (board/nborCoords cp))))
+
+(defn buildOutcomes
+  "Get all the move outcomes for either piece"
+  [g]
+  (apply concat (map #(pieceBuildOutcomes g %) (game/ownPiecesCoords g))))

@@ -33,6 +33,16 @@
   (> 4 (get-in b (cToI c))))
 
 
+(defn buildOn
+  "Build the given coordinate one level higher, return new board"
+  [b c]
+  (let [i (cToI c)
+        curr-level (get-in b i)
+        new-level (inc curr-level)]
+
+    (assoc-in b i new-level)))
+
+
 (defn moveTo?
   "True if piece can move from cf to ct, False otherwise. ASSUMING THE COORDINATES ARE NEIGHBORS"
   [b cf ct]

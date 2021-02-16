@@ -71,6 +71,19 @@
       )))
 
 
+(deftest build-on-test
+  (testing "Build on a spot"
+    (let [g-init {:players [[[1,1],[1,2]],[[2,5],[3,5]]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,3,4]]
+             :turn 18}
+          g-out {:players [[[1,1],[1,2]],[[2,5],[3,5]]]
+             :spaces [[0,0,1,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,3,4]]
+             :turn 18}]
+
+      (is (= g-out (game/buildOn g-init [1, 3])))
+      )))
+
+
 (deftest move-to?-test
   (testing "Pieces can't move to the same spot as another piece"
     (let [g {:players [[[1,1],[1,2]],[[2,5],[3,5]]]

@@ -38,6 +38,9 @@
   (and (board/buildOn? (spaces g) c)
        (not (pieceAtCoord? g c))))
 
+(defn buildOn [g c]
+  (assoc g :spaces (board/buildOn (spaces g) c)))
+
 (defn moveTo? [g cf ct]
   (and (board/moveTo? (spaces g) cf ct)
        (not (pieceAtCoord? g ct))))
