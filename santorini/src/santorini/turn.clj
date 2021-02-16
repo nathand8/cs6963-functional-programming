@@ -10,3 +10,8 @@
   (mapv #(game/moveTo g cp %)
         (filterv #(game/moveTo? g cp %)
                  (board/nborCoords cp))))
+
+(defn moveOutcomes
+  "Get all the move outcomes for either piece"
+  [g]
+  (apply concat (map #(pieceMoveOutcomes g %) (game/ownPiecesCoords g))))

@@ -50,3 +50,23 @@
       
       )))
 
+
+(deftest move-outcomes-test
+  (testing "Returns all possible outcomes after either piece moves"
+    (let [g {:players [[[1,2],[4,4]]
+                       [[2,5],[3,5]]]
+
+             :spaces [[0,0,0,0,2]
+                      [3,3,3,0,0]
+                      [1,0,0,3,0]
+                      [0,0,3,0,0]
+                      [0,0,0,1,4]]
+
+             :turn 18}]
+      
+      ;; From (1, 2) there are 2 possible places to move
+      ;; From (4, 4) there are 4 possible places to move
+      ;; Total: 6
+      (is (= 6 (count (turn/moveOutcomes g)))))))
+
+
