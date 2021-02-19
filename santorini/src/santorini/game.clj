@@ -22,6 +22,9 @@
 (defn spaces [g]
   (get g :spaces))
 
+(defn turn [g]
+  (get g :turn))
+
 (defn allPiecesCoords [g]
   (apply concat (players g)))
 
@@ -62,4 +65,14 @@
 
 (defn moveTo [g cf ct]
   (assoc g :players (movePiece-players g cf ct)))
+
+(defn swap-players 
+  "Creat copy of :players, swap order"
+  [g]
+  (assoc g :players (reverse (players g))))
+
+(defn incTurn
+  "Increment the turn. Swap the player order and increment turn counter."
+  [g]
+  (assoc (swap-players g) :turn (+ 1 (turn g))))
 

@@ -1,7 +1,15 @@
 (ns santorini.core
+  (:require
+   [santorini.turn :as turn]
+   [santorini.game :as game])
   (:gen-class))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Take a game board and return the next move"
   [& args]
-  (println "Hello, World!"))
+  (println
+   (game/toJSON
+    (rand-nth
+     (turn/turnOutcomes
+      (game/fromJSON
+       (read-line)))))))

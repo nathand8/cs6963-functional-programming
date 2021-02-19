@@ -107,3 +107,16 @@
 
       (is (= g-out (game/moveTo g-init [1, 2] [1, 3])))
       )))
+
+
+(deftest int-turn-test
+  (testing "Increment turn"
+    (let [g-init {:players [[[1,1],[1,2]],[[2,5],[3,5]]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,3,4]]
+             :turn 18}
+          g-out {:players [[[2,5],[3,5]],[[1,1],[1,2]]] ;; Swap player order
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,3,4]]
+             :turn 19}] ;; Inc turn counter
+
+      (is (= g-out (game/incTurn g-init)))
+      )))
