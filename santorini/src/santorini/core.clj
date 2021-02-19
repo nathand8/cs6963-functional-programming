@@ -7,9 +7,13 @@
 (defn -main
   "Take a game board and return the next move"
   [& args]
-  (println
-   (game/toJSON
-    (rand-nth
-     (turn/turnOutcomes
-      (game/fromJSON
-       (read-line)))))))
+  (loop []
+    (println
+     (game/toJSON
+      (game/incTurn
+       (rand-nth
+        (turn/turnOutcomes
+         (game/fromJSON
+          (read-line)))))))
+    (recur))
+  )
