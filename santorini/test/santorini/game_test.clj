@@ -16,7 +16,39 @@
       (is (= json-output (game/toJSON game)))
     )
   )
+  (testing "Should be able to parse a game in setup mode from JSON and convert game back to JSON"
+    (let [json-game "[]"
+          game []
+          json-output "[]"]
+
+      (is (= game (game/fromJSON json-game)))
+      (is (= json-output (game/toJSON game)))
+    )
+  )
+  (testing "Should be able to parse a game in setup mode with one player from JSON and convert game back to JSON"
+    (let [json-game "[[[1, 2], [4, 4]]]"
+          game [[[1, 2], [4, 4]]]
+          json-output "[[[1,2],[4,4]]]"]
+
+      (is (= game (game/fromJSON json-game)))
+      (is (= json-output (game/toJSON game)))
+    )
+  )
 )
+
+(deftest setup-test
+  (testing "Should detect when a board is in the setup phase of game"
+    (let [g1 []
+          g2 [[[1, 2], [2, 2]]]
+          g3 [[[1, 2], [2, 2]], [[4, 4], [3, 4]]]
+          g4 {:players [[[2,3],[4,4]],[[2,5],[3,5]]]
+             :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
+             :turn 18}
+          ]
+      (is (true? (game/inSetup? g1)))
+      (is (true? (game/inSetup? g2)))
+      (is (true? (game/inSetup? g3)))
+      (is (false? (game/inSetup? g4))))))
 
 
 (deftest get-all-pieces-coords-test

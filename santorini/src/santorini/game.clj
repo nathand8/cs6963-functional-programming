@@ -11,10 +11,15 @@
 ;; }
 
 (defn fromJSON [json-game-str]
-  (json/read-str json-game-str :key-fn #(keyword %)))
+  (json/read-str json-game-str :key-fn keyword))
 
 (defn toJSON [g]
   (json/write-str g))
+
+(defn inSetup?
+  "Return True if the game is in setup mode (placing pieces), False otherwise"
+  [g]
+  (sequential? g))
 
 (defn players [g]
   (get g :players))
