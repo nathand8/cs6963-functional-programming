@@ -16,10 +16,17 @@
 (defn toJSON [g]
   (json/write-str g))
 
+(defn setupPosTaken
+  "Given a game in setup, return true if the suggested position is taken"
+  [g c]
+  (if (= 0 (count g))
+    false
+    (in? (apply concat g) c)))
+
 (defn inSetup?
   "Return True if the game is in setup mode (placing pieces), False otherwise"
   [g]
-  (sequential? g))
+  (not (map? g)))
 
 (defn players [g]
   (get g :players))

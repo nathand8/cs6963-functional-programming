@@ -50,6 +50,15 @@
       (is (true? (game/inSetup? g3)))
       (is (false? (game/inSetup? g4))))))
 
+(deftest setup-Pos-Taken-test
+  (testing "Should detect when a position is taken, given a board in setup mode"
+    (is (true? (game/setupPosTaken [[[1, 2], [2, 2]]] [1, 2])))
+    (is (true? (game/setupPosTaken [[[1, 2], [2, 2]]] [2, 2])))
+    (is (true? (game/setupPosTaken [[[1, 2], [2, 2]], [[3, 2]]] [3, 2])))
+    (is (false? (boolean (game/setupPosTaken [[[1, 2], [2, 2]]] [4, 4]))))
+    (is (false? (boolean (game/setupPosTaken [[[1, 2], [2, 2]], [[3, 2]]] [5, 5]))))
+    (is (false? (boolean (game/setupPosTaken [] [5, 5]))))))
+
 
 (deftest get-all-pieces-coords-test
   (testing "Should be able to get all of the game piece coords"
