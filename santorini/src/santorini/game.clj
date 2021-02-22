@@ -37,6 +37,31 @@
 (defn turn [g]
   (get g :turn))
 
+(defn otherPlayerIndex 
+  "Given a player index, get the other player's index"
+  [i]
+  (mod (+ 1 i) 2))
+
+(defn playerAtIndex
+  "Get the player at the given index"
+  [g player-index]
+  (get (players g) player-index))
+
+;; (defn playerAtOtherIndex
+;;   "Get the player NOT at the given index"
+;;   [g player-index]
+;;   (playerAtIndex g (otherPlayerIndex player-index)))
+
+(defn levelAt 
+  "Get the board level at a given coordinate"
+  [g c]
+  (board/levelAt (spaces g) c))
+
+(defn levelsAt
+  "Given a game and list of coordinates, return the board levels at those coordinates"
+  [g coords]
+  (map #(levelAt g %) coords))
+
 (defn allPiecesCoords [g]
   (apply concat (players g)))
 
