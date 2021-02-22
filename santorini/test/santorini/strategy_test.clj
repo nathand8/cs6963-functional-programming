@@ -65,3 +65,12 @@
                    :turn 18}]
       (is (= g-win (strategy/pickGame [g-win g-other])))
       (is (= g-win (strategy/pickGame [g-other g-win]))))))
+
+(deftest rateNextMoveL3-test
+  (testing "Next move to L3"
+    (let [g {:players [[[1,3],[1,1]],[[2,1],[2,2]]]
+             :spaces [[0,0,2,3,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+             :turn 18}]
+      (is (== stratconst/VALUE_LEVEL_3_NEXT_MOVE (strategy/rateNextMoveL3 g 0)))
+      (is (== 0 (strategy/rateNextMoveL3 g 1)))
+      )))

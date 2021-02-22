@@ -9,8 +9,7 @@
   [g pi]
   (let [cf (game/piToC g pi)]
     (mapv #(game/moveTo g cf %)
-          (filterv #(game/moveTo? g cf %)
-                   (board/nborCoords cf)))))
+          (game/movesFrom g cf))))
 
 (defn moveOutcomes
   "Get all move outcomes for either piece"

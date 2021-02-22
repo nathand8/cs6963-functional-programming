@@ -94,6 +94,11 @@
 (defn moveTo? [g cf ct]
   (and (board/moveTo? (spaces g) cf ct)
        (not (pieceAtCoord? g ct))))
+    
+(defn movesFrom
+  "All the possible coordinates to move to from c"
+  [g c]
+  (filterv #(moveTo? g c %) (board/nborCoords c)))
 
 (defn movePiece-players
   "Create copy of :players, move cf to ct"

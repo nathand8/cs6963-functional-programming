@@ -1,15 +1,24 @@
 (ns santorini.strategy
   (:require
-   [santorini.util :refer [in?]]
+   [santorini.util :refer [in? level3in?]]
    [santorini.board :as board]
    [santorini.game :as game]
-   [santorini.strategy-constants :as stratconst]
-   ))
+   [santorini.strategy-constants :as stratconst]))
+
+
+(defn rateNextMoveL3
+  "Is player piece next to level 3 tile?"
+  [g player-index]
+  (let [ownPiecesCoords (game/playerAtIndex g player-index)
+        nextPieceMoves (apply concat (map #(game/movesFrom g %) ownPiecesCoords))]
+    (if (level3in? (game/levelsAt g nextPieceMoves))
+      stratconst/VALUE_LEVEL_3_NEXT_MOVE
+      0)))
 
 (defn rateWinCondition
-  [g self-index]
-  (let [ownPiecesCoords (game/playerAtIndex g self-index)]
-    (if (in? (game/levelsAt g ownPiecesCoords) 3)
+  [g player-index]
+  (let [ownPiecesCoords (game/playerAtIndex g player-index)]
+    (if (level3in? (game/levelsAt g ownPiecesCoords))
       stratconst/VALUE_WIN
       0)))
 
@@ -25,13 +34,14 @@
 (defn rateGame
   "Using known strategies, give the game a rating. (Assume player at index 0 is self)"
   [g self-index]
-  (let [values [(rateFeature g self-index rateWinCondition true)]]
+  (let [values [(rateFeature g self-index rateWinCondition false)
+                (rateFeature g self-index rateNextMoveL3 true)]]
     (reduce + (flatten values))))
 
 (defn pickGame
   "Given a list of games, pick the one that is most advantageous to player at 0th index."
   [gs]
-  (second (last 
+  (second (last
            (sort-by first (map #(vector (rateGame % 0) %) gs)))))
 
 (defn startingPositions
