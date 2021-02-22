@@ -20,9 +20,11 @@
   "Get all build outcomes for a single piece, pi = piece index {0, 1}"
   [g pi]
   (let [cf (game/piToC g pi)]
-    (mapv #(game/buildOn g %)
-          (filterv #(game/buildOn? g %)
-                   (board/nborCoords cf)))))
+    (if (= 3 (game/levelAt g cf))
+      [g]
+      (mapv #(game/buildOn g %)
+            (filterv #(game/buildOn? g %)
+                     (board/nborCoords cf))))))
 
 (defn buildOutcomes
   "Get all move outcomes for either piece"

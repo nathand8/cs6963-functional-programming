@@ -35,14 +35,14 @@
   "Using known strategies, give the game a rating. (Assume player at index 0 is self)"
   [g self-index]
   (let [values [(rateFeature g self-index rateWinCondition false)
-                (rateFeature g self-index rateNextMoveL3 true)]]
+                (rateFeature g self-index rateNextMoveL3 true)]] ;; TODO: call :consider_opponent
     (reduce + (flatten values))))
 
 (defn pickGame
   "Given a list of games, pick the one that is most advantageous to player at 0th index."
   [gs]
   (second (last
-           (sort-by first (map #(vector (rateGame % 0) %) gs)))))
+           (sort-by first (map #(vector (rateGame % 0) %) gs))))) ;; TODO use max
 
 (defn startingPositions
   "Pick the starting positions for this player. g - player array"

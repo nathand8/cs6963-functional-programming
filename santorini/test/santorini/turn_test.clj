@@ -145,4 +145,33 @@
       ;; From (1, 2) there are 2 move spots -> 1 + 2 = 3 permutations
       ;; From (4, 4) there are 3 move spots -> 3 + 4 + 2 = 9 permutations
       ;; Total: 12
-      (is (= 12 (count (turn/turnOutcomes g)))))))
+      (is (= 12 (count (turn/turnOutcomes g))))))
+      
+  (testing "Should only move on a winning move, not build"
+    (let [g       {:players [[[1,1],[1,5]]
+                             [[2,5],[3,5]]]
+
+                   :spaces [[2,3,0,4,0]
+                            [4,4,4,4,4]
+                            [1,4,3,4,0]
+                            [0,4,3,0,0]
+                            [0,4,0,1,4]]
+
+                   :turn 18}
+
+          g-after {:players [[[1,2],[1,5]]
+                             [[2,5],[3,5]]]
+
+                   :spaces [[2,3,0,4,0]
+                            [4,4,4,4,4]
+                            [1,4,3,4,0]
+                            [0,4,3,0,0]
+                            [0,4,0,1,4]]
+
+                   :turn 18}]
+      
+      ;; From (1, 1) there are 1 move spots, and it's a WIN (no build)
+      ;; From (4, 4) there are 0 move spots
+      ;; Total: 1
+      (is (= 1 (count (turn/turnOutcomes g))))
+      (is (= [g-after] (turn/turnOutcomes g))))))
