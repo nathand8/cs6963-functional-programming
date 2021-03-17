@@ -176,7 +176,9 @@
 (defn swap-players
   "Creat copy of :players, swap order"
   [g]
-  (assoc g :players (reverse (players g))))
+  (if (inSetup? g)
+    (reverse g)
+    (assoc g :players (reverse (players g)))))
 
 (defn incTurn
   "Increment the turn. Swap the player order and increment turn counter."

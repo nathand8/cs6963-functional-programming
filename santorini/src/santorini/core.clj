@@ -17,7 +17,7 @@
   "Prepare a game for output"
   [g]
   (if (game/inSetup? g)
-    (stdout (game/toJSON g))
+    (stdout (game/toJSON (game/swap-players g)))
     (stdout (game/toJSON (game/incTurn g)))))
 
 (defn -main
