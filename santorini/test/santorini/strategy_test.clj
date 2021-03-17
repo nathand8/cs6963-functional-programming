@@ -11,34 +11,35 @@
 
 (deftest starting-positions-test
   (testing "Can pick starting position starting from zero players"
-    (let [g-init []
-          g-out (strategy/startingPositions g-init)]
+    (let [g-init [{:card :Apollo}, {:card :Artemis}]
+          g-out (strategy/startingPositions g-init)
+          own-pieces-out (game/playerTokens (first g-out))]
 
       ;; Expecting something like
       ;; [[[1, 2], [2, 4]]]
 
       (is (true? (game/inSetup? g-out)))
-      (is (= 1 (count g-out)))
-      (is (= 2 (count (first g-out))))
-      (is (= 2 (count (first (first g-out)))))
-      (is (= 2 (count (second (first g-out)))))))
+      (is (= 2 (count own-pieces-out)))
+      (is (= 2 (count (first own-pieces-out))))
+      (is (= 2 (count (second own-pieces-out))))))
 
   (testing "Can pick starting position starting from one player"
-    (let [g-init [[[1, 2], [2, 4]]]
-          g-out (strategy/startingPositions g-init)]
+    (let [g-init [{:card :Apollo}, {:card :Artemis :tokens [[1, 2], [2, 4]]}]
+          g-out (strategy/startingPositions g-init)
+          own-pieces-out (game/playerTokens (second g-out))]
 
       ;; Expecting something like
       ;; [[[1, 2], [2, 4]], [[4, 4], [1, 5]]]
 
       (is (true? (game/inSetup? g-out)))
-      (is (= 2 (count g-out)))
-      (is (= 2 (count (second g-out))))
-      (is (= 2 (count (first (second g-out)))))
-      (is (= 2 (count (second (second g-out))))))))
+      (is (= (second g-init) (second g-out)))
+      (is (= 2 (count own-pieces-out)))
+      (is (= 2 (count (first own-pieces-out))))
+      (is (= 2 (count (second own-pieces-out)))))))
 
 (deftest rateWinCondition-test
   (testing "A piece on a level three should be a win condition"
-    (let [g {:players [[[1,1],[3,4]],[[1,3],[1,4]]]
+    (let [g {:players [{:card :Apollo :tokens [[1,1],[3,4]]},{:card :Artemis :tokens [[1,3],[1,4]]}]
              :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
              :turn 18}]
       (is (== stratconst/VALUE_WIN (strategy/rateWinCondition g 0)))
@@ -47,7 +48,7 @@
 
 (deftest rateFeature-test
   (testing "Given a feature, get rating for self and (optionally) other player"
-    (let [g {:players [[[1,1],[3,4]],[[1,3],[1,4]]]
+    (let [g {:players [{:card :Apollo :tokens [[1,1],[3,4]]},{:card :Artemis :tokens [[1,3],[1,4]]}]
                  :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
                  :turn 18}]
       (is (== stratconst/VALUE_WIN (reduce + (strategy/rateFeature g 0 strategy/rateWinCondition false))))
@@ -57,10 +58,10 @@
 
 (deftest pickGame-test
   (testing "Should always pick the game where self wins"
-    (let [g-win   {:players [[[1,1],[3,4]],[[1,3],[1,4]]]
+    (let [g-win   {:players [{:card :Apollo :tokens [[1,1],[3,4]]},{:card :Artemis :tokens [[1,3],[1,4]]}]
                    :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
                    :turn 18}
-          g-other {:players [[[1,1],[3,5]],[[1,3],[1,4]]]
+          g-other {:players [{:card :Apollo :tokens [[1,1],[3,5]]},{:card :Artemis :tokens [[1,3],[1,4]]}]
                    :spaces [[0,0,0,0,2],[1,1,2,0,0],[1,0,0,3,0],[0,0,3,0,0],[0,0,0,1,4]]
                    :turn 18}]
       (is (= g-win (strategy/pickGame [g-win g-other])))
@@ -68,7 +69,7 @@
 
 (deftest rateNextMoveL3-test
   (testing "Next move to L3"
-    (let [g {:players [[[1,3],[1,1]],[[2,1],[2,2]]]
+    (let [g {:players [{:card :Apollo :tokens [[1,3],[1,1]]},{:card :Artemis :tokens [[2,1],[2,2]]}]
              :spaces [[0,0,2,3,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
              :turn 18}]
       (is (== stratconst/VALUE_LEVEL_3_NEXT_MOVE (strategy/rateNextMoveL3 g 0)))

@@ -9,8 +9,8 @@
 
 (deftest piece-move-outcomes-test
   (testing "Returns all possible outcomes after a single piece moves"
-    (let [init-game {:players [[[1,2],[4,4]]
-                               [[2,5],[3,5]]]
+    (let [init-game {:players [{:card :Apollo :tokens [[1,2],[4,4]]}
+                               {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                      :spaces [[0,0,0,0,2]
                               [3,3,3,0,0]
@@ -21,8 +21,8 @@
                      :turn 18}
 
           ;; Outcome if the piece at (1, 1) is moved to the left
-          g-left    {:players [[[1,1],[4,4]]
-                               [[2,5],[3,5]]]
+          g-left    {:players [{:card :Apollo :tokens [[1,1],[4,4]]}
+                               {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                      :spaces [[0,0,0,0,2]
                               [3,3,3,0,0]
@@ -33,8 +33,8 @@
                      :turn 18}
 
           ;; Outcome if the piece at (1, 1) is moved to the right
-          g-right   {:players [[[1,3],[4,4]]
-                               [[2,5],[3,5]]]
+          g-right   {:players [{:card :Apollo :tokens [[1,3],[4,4]]}
+                               {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                      :spaces [[0,0,0,0,2]
                               [3,3,3,0,0]
@@ -51,8 +51,8 @@
 
 (deftest move-outcomes-test
   (testing "Returns all possible outcomes after either piece moves"
-    (let [g {:players [[[1,2],[4,4]]
-                       [[2,5],[3,5]]]
+    (let [g {:players [{:card :Apollo :tokens [[1,2],[4,4]]}
+                       {:card :Artemis :tokens [[2,5],[3,5]]}]
 
              :spaces [[0,0,0,0,2]
                       [3,3,3,0,0]
@@ -70,8 +70,8 @@
 
 (deftest piece-build-outcomes-test
   (testing "Returns all possible outcomes after a single piece builds"
-    (let [init-game {:players [[[1,2],[4,4]]
-                               [[2,5],[3,5]]]
+    (let [init-game {:players [{:card :Apollo :tokens [[1,2],[4,4]]}
+                               {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                      :spaces [[0,0,0,0,2]
                               [4,4,4,0,0]
@@ -82,8 +82,8 @@
                      :turn 18}
 
           ;; Outcome if the piece at (1, 1) builds to the left
-          g-left    {:players [[[1,2],[4,4]]
-                               [[2,5],[3,5]]]
+          g-left    {:players [{:card :Apollo :tokens [[1,2],[4,4]]}
+                               {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                      :spaces [[1,0,0,0,2]
                               [4,4,4,0,0]
@@ -94,8 +94,8 @@
                      :turn 18}
 
           ;; Outcome if the piece at (1, 1) builds to the right
-          g-right   {:players [[[1,2],[4,4]]
-                               [[2,5],[3,5]]]
+          g-right   {:players [{:card :Apollo :tokens [[1,2],[4,4]]}
+                               {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                      :spaces [[0,0,1,0,2]
                               [4,4,4,0,0]
@@ -112,8 +112,8 @@
 
 (deftest build-outcomes-test
   (testing "Returns all possible outcomes after either piece builds"
-    (let [g {:players [[[1,2],[4,4]]
-                       [[2,5],[3,5]]]
+    (let [g {:players [{:card :Apollo :tokens [[1,2],[4,4]]}
+                       {:card :Artemis :tokens [[2,5],[3,5]]}]
 
              :spaces [[0,0,0,0,2]
                       [3,3,3,0,0]
@@ -131,8 +131,8 @@
 
 (deftest turn-outcomes-test
   (testing "Returns all possible outcomes after either piece builds"
-    (let [g {:players [[[1,2],[4,4]]
-                       [[2,5],[3,5]]]
+    (let [g {:players [{:card :Apollo :tokens [[1,2],[4,4]]}
+                       {:card :Artemis :tokens [[2,5],[3,5]]}]
 
              :spaces [[0,0,0,0,2]
                       [4,4,4,4,0]
@@ -148,8 +148,8 @@
       (is (= 12 (count (turn/turnOutcomes g))))))
       
   (testing "Should only move on a winning move, not build"
-    (let [g       {:players [[[1,1],[1,5]]
-                             [[2,5],[3,5]]]
+    (let [g       {:players [{:card :Apollo :tokens [[1,1],[1,5]]}
+                             {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                    :spaces [[2,3,0,4,0]
                             [4,4,4,4,4]
@@ -159,8 +159,8 @@
 
                    :turn 18}
 
-          g-after {:players [[[1,2],[1,5]]
-                             [[2,5],[3,5]]]
+          g-after {:players [{:card :Apollo :tokens [[1,2],[1,5]]}
+                             {:card :Artemis :tokens [[2,5],[3,5]]}]
 
                    :spaces [[2,3,0,4,0]
                             [4,4,4,4,4]

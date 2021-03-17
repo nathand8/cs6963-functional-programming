@@ -9,7 +9,7 @@
 (defn rateNextMoveL3
   "Is player piece next to level 3 tile?"
   [g player-index]
-  (let [ownPiecesCoords (game/playerAtIndex g player-index)
+  (let [ownPiecesCoords (game/playerTokens (game/playerAtIndex g player-index))
         nextPieceMoves (apply concat (map #(game/movesFrom g %) ownPiecesCoords))]
     (if (level3in? (game/levelsAt g nextPieceMoves))
       stratconst/VALUE_LEVEL_3_NEXT_MOVE
@@ -17,7 +17,7 @@
 
 (defn rateWinCondition
   [g player-index]
-  (let [ownPiecesCoords (game/playerAtIndex g player-index)]
+  (let [ownPiecesCoords (game/playerTokens (game/playerAtIndex g player-index))]
     (if (level3in? (game/levelsAt g ownPiecesCoords))
       stratconst/VALUE_WIN
       0)))
@@ -47,10 +47,10 @@
 (defn startingPositions
   "Pick the starting positions for this player. g - player array"
   [g]
-  (loop [player []]
-    (if (= 2 (count player))
-      (conj g player)
+  (loop [tokens []]
+    (if (= 2 (count tokens))
+      (game/setupReplaceOwnTokens g tokens)
       (let [p (rand-nth stratconst/BEG_POS)]
-        (if (or (game/setupPosTaken g p) (in? player p))
-          (recur player)
-          (recur (conj player p)))))))
+        (if (or (game/setupPosTaken g p) (in? tokens p))
+          (recur tokens)
+          (recur (conj tokens p)))))))
