@@ -65,6 +65,9 @@
 (defn playerTokens [p]
   (get p :tokens))
 
+(defn setPlayerTokens [p t]
+  (assoc p :tokens t))
+
 (defn playerCard [p]
   (get p :card))
 
@@ -87,6 +90,9 @@
 
 (defn players [g]
   (get g :players))
+
+(defn setPlayers [g ps]
+  (assoc g :players ps))
 
 (defn spaces [g]
   (get g :spaces))
@@ -176,20 +182,29 @@
 (defn movePiece-players
   "Create copy of :players, move cf to ct"
   [g cf ct]
-  [(assoc (ownPlayer g) :tokens (replace {cf ct} (ownPiecesCoords g))) (otherPlayer g)])
+  [(setPlayerTokens (ownPlayer g) (replace {cf ct} (ownPiecesCoords g))) (otherPlayer g)])
 
 (defn moveTo [g cf ct]
-  (assoc g :players (movePiece-players g cf ct)))
+  (setPlayers g (movePiece-players g cf ct)))
 
 (defn swap-players
   "Creat copy of :players, swap order"
   [g]
   (if (inSetup? g)
     (reverse g)
-    (assoc g :players (reverse (players g)))))
+    (setPlayers g (reverse (players g)))))
 
 (defn incTurn
   "Increment the turn. Swap the player order and increment turn counter."
   [g]
   (assoc (swap-players g) :turn (+ 1 (turn g))))
+
+(defn swapTokens
+  "Swap the two tokens. c1 is own token, c2 is other token"
+  [g c1 c2]
+  (let [p1-tokens (playerTokens (ownPlayer g))
+        p2-tokens (playerTokens (otherPlayer g))]
+    (setPlayers g [(cons c2 (remove #{c1} p1-tokens))
+                   (cons c1 (remove #{c2} p2-tokens))]))
+  )
 

@@ -15,7 +15,7 @@
   [g]
   (if (not (haveCard?Apollo g))
       g
-      ()))
+      (game/swapTokens c1 c2)))
 
 
 ;; Artemis — The moved token can optionally move a second time (i.e., the same token), 
