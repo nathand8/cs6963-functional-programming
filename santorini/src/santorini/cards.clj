@@ -11,7 +11,7 @@
   (game/ownCardIs? g :Apollo))
 
 (defn cardOptionsApollo
-  "Starting from the list of game states, return the possible states unique to using the Apollo card"
+  "Starting from a game state, return the possible states unique to using the Apollo card"
   [g]
   (if (not (haveCard?Apollo g))
       g
@@ -27,7 +27,7 @@
   (game/ownCardIs? g :Artemis))
 
 (defn cardOptionsArtemis
-  "Starting from the list of game states, return the possible states unique to using the Artemis card"
+  "Starting from a game state, return the possible states unique to using the Artemis card"
   [g]
   (if (not (haveCard?Artemis g))
       g
@@ -42,7 +42,7 @@
   (game/ownCardIs? g :Atlas))
 
 (defn cardOptionsAtlas
-  "Starting from the list of game states, return the possible states unique to using the Atlas card"
+  "Starting from a game state, return the possible states unique to using the Atlas card"
   [g]
   (if (not (haveCard?Atlas g))
       g
@@ -57,7 +57,7 @@
   (game/ownCardIs? g :Demeter))
 
 (defn cardOptionsDemeter
-  "Starting from the list of game states, return the possible states unique to using the Demeter card"
+  "Starting from a game state, return the possible states unique to using the Demeter card"
   [g]
   (if (not (haveCard?Demeter g))
       g
@@ -72,7 +72,7 @@
   (game/ownCardIs? g :Hephastus))
 
 (defn cardOptionsHephastus
-  "Starting from the list of game states, return the possible states unique to using the Hephastus card"
+  "Starting from a game state, return the possible states unique to using the Hephastus card"
   [g]
   (if (not (haveCard?Hephastus g))
       g
@@ -91,7 +91,7 @@
   (game/ownCardIs? g :Minotaur))
 
 (defn cardOptionsMinotaur
-  "Starting from the list of game states, return the possible states unique to using the Minotaur card"
+  "Starting from a game state, return the possible states unique to using the Minotaur card"
   [g]
   (if (not (haveCard?Minotaur g))
       g
@@ -106,7 +106,7 @@
   (game/ownCardIs? g :Pan))
 
 (defn cardOptionsPan
-  "Starting from the list of game states, return the possible states unique to using the Pan card"
+  "Starting from a game state, return the possible states unique to using the Pan card"
   [g]
   (if (not (haveCard?Pan g))
       g
@@ -122,7 +122,7 @@
   (game/ownCardIs? g :Prometheus))
 
 (defn cardOptionsPrometheus
-  "Starting from the list of game states, return the possible states unique to using the Prometheus card"
+  "Starting from a game state, return the possible states unique to using the Prometheus card"
   [g]
   (if (not (haveCard?Prometheus g))
       g
