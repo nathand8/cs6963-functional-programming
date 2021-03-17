@@ -65,6 +65,9 @@
 (defn playerTokens [p]
   (get p :tokens))
 
+(defn playerCard [p]
+  (get p :card))
+
 (defn setupAllPiecesCoords
   "Get all the coordinates of the pieces when the game is in setup mode"
   [g]
@@ -121,6 +124,11 @@
 
 (defn ownPlayer [g]
   (first (players g)))
+
+(defn ownCardIs?
+  "Determine if my own card is crd"
+  [g crd]
+  (= (playerCard (ownPlayer g)) crd))
 
 (defn ownPiecesCoords [g]
   (playerTokens (ownPlayer g)))
