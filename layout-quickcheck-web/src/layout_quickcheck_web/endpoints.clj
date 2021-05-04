@@ -11,7 +11,7 @@
 ;;                 (file-seq bug-folder))))
 
 (defn get-all-bugs [req]
-  (let [bug-folder (io/file "/home/u0777729/cs6963-functional-programming/layout-quickcheck-bugs")
+  (let [bug-folder (io/file "../layout-quickcheck-bugs")
         all-bugs-json (json/write-str (map #(json/read-str (slurp %) :key-fn keyword)
                                            (filter #(string/ends-with? % "data.json")
                                                    (file-seq bug-folder))))]
