@@ -16,6 +16,7 @@
                   :scope "provided"]
                  [metosin/reitit "0.5.12"]                 
                  [pez/clerk "1.0.0"]
+                 [cljs-http "0.1.39"]
                  [venantius/accountant "0.2.5"
                   :exclusions [org.clojure/tools.reader]]]
 

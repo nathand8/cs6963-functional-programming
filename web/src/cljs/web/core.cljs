@@ -1,12 +1,15 @@
 (ns web.core
   (:require
+   [cljs.core.async :refer [<!]]
+   [cljs-http.client :as http]
    [cljs.pprint :refer [pprint]]
    [reagent.core :as reagent :refer [atom]]
    [reagent.dom :as rdom]
    [reagent.session :as session]
    [reitit.frontend :as reitit]
    [clerk.core :as clerk]
-   [accountant.core :as accountant]))
+   [accountant.core :as accountant])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
 ;; -------------------------
 ;; Routes
@@ -35,23 +38,21 @@
       [:li [:a {:href (path-for :items)} "Items of web"]]
       [:li [:a {:href "/broken/link"} "Broken link"]]]]))
 
-(def state (atom {:data "Not fetched"}))
+(def state (atom {:data [{:styles_used_string "Loading the bugs..."}]}))
 
 (defn fetch-bugs []
-  (pprint "Here are all the bugs:")
-  (pprint)
-  (swap! state assoc :data "Bug"))
+  (go (let [response (<! (http/get "/bugs"))]
+      (swap! state assoc :data (:body response)))))
 
 (defn items-page []
   (fetch-bugs)
   (fn []
     [:span.main
-     [:h1 "The items of web"]
-     [:div "State is: " (:data @state)]
-     [:ul (map (fn [item-id]
-                 [:li {:name (str "item-" item-id) :key (str "item-" item-id)}
-                  [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
-               (range 1 60))]]))
+     [:h1 "List of Bugs"]
+     [:ul (map-indexed (fn [idx bug]
+                 [:li {:name (:styles_used_string bug) :key (str (:styles_used_string bug) idx)}
+                  [:span "Styles Used: " (:styles_used_string bug)]])
+               (:data @state))]]))
 
 
 (defn item-page []
