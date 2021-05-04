@@ -1,6 +1,12 @@
-# web
+# Layout-QuickCheck Web UI
 
-This is the web project.
+## To Run
+
+```
+lein figwheel
+```
+
+Then open [http://localhost:3449](http://localhost:3449).
 
 ## Development mode
 
