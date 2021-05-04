@@ -1,5 +1,6 @@
 (ns web.core
   (:require
+   [cljs.pprint :refer [pprint]]
    [reagent.core :as reagent :refer [atom]]
    [reagent.dom :as rdom]
    [reagent.session :as session]
@@ -34,11 +35,19 @@
       [:li [:a {:href (path-for :items)} "Items of web"]]
       [:li [:a {:href "/broken/link"} "Broken link"]]]]))
 
+(def state (atom {:data "Not fetched"}))
+
+(defn fetch-bugs []
+  (pprint "Here are all the bugs:")
+  (pprint)
+  (swap! state assoc :data "Bug"))
 
 (defn items-page []
+  (fetch-bugs)
   (fn []
     [:span.main
      [:h1 "The items of web"]
+     [:div "State is: " (:data @state)]
      [:ul (map (fn [item-id]
                  [:li {:name (str "item-" item-id) :key (str "item-" item-id)}
                   [:a {:href (path-for :item {:item-id item-id})} "Item: " item-id]])
